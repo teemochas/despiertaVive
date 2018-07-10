@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="despiertaVive.Views.LoginPage"
+             BindingContext="{Binding Main,Source={StaticResource Locator}}"
+             Title="Login">
+    <ContentPage.Content>
+        <ScrollView
+            BindingContext="{Binding Login}">
+            <StackLayout
+            Padding="10,20">
+                <Label
+                FontAttributes="Bold"
+                FontSize="Large"
+                HorizontalOptions="Center"
+                Text="Despierta y Vive">
+                </Label>
+
+                <Image
+                Source="eye.png">
+                </Image>
+
+                <Grid
+                    VerticalOptions="CenterAndExpand"
+                    Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="E-mail"
+                        VerticalOptions="Center">
+                    </Label>
+
+                    <Entry
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Keyboard="Email"
+                        Text="{Binding Email, Mode=TwoWay}"
+                        Placeholder="Introduce tu correo electrónico">
+                    </Entry>
+
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Text="Contraseña"
+                        VerticalOptions="Center">
+                    </Label>
+
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        IsPassword="True"
+                        Text="{Binding Password, Mode=TwoWay}"
+                        Placeholder="Introduce tu contraseña">
+                    </Entry>
+                </Grid>
+
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    VerticalOptions="CenterAndExpand">
+                </ActivityIndicator>
+
+                <StackLayout
+                        VerticalOptions="CenterAndExpand"
+                        Margin="5,0"
+                        Orientation="Horizontal">
+                    <Label
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Recuerdame en este dispositivo"
+                        VerticalOptions="Center">
+                    </Label>
+                    <Switch
+                       IsToggled="{Binding IsRemembered, Mode=TwoWay}"
+                       HorizontalOptions="End">
+                    </Switch>
+                </StackLayout>
+
+                <Label
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    Text="¿Olvidaste tu contraseña?"
+                    TextColor="Blue">
+                    
+                </Label>
+
+                <StackLayout
+                    VerticalOptions="CenterAndExpand"
+                    Orientation="Horizontal"
+                    Margin="30,0">
+                        <Button
+                            BackgroundColor="DarkCyan"
+                            BorderRadius="23"
+                            Command="{Binding LoginCommand}"
+                            HeightRequest="46"
+                            Text="Ingresar"
+                            TextColor="White"
+                            HorizontalOptions="FillAndExpand">
+                         </Button>
+
+                        <Button
+                            BackgroundColor="YellowGreen"
+                            BorderRadius="23"
+                            HeightRequest="46"                
+                            Text="Registrarse"
+                            TextColor="White"
+                            HorizontalOptions="FillAndExpand">  
+                        </Button>                  
+                </StackLayout>
+                
+                <StackLayout
+                    VerticalOptions="EndAndExpand"
+                        HorizontalOptions="Center"
+                        Orientation="Horizontal">
+                    <Image
+                            Source="facebook.png"
+                            WidthRequest="96">
+                    </Image>
+                    <Image
+                            Source="twitter.png"
+                            WidthRequest="96">
+                    </Image>
+                    <Image
+                            Source="google.png"
+                            WidthRequest="96">
+                    </Image>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
