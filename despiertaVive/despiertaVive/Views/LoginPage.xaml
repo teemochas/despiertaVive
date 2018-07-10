@@ -98,17 +98,19 @@
                             HeightRequest="46"
                             Text="Ingresar"
                             TextColor="White"
-                            HorizontalOptions="FillAndExpand">
+                            HorizontalOptions="FillAndExpand"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}">
                          </Button>
 
-                        <Button
+                    <Button
                             BackgroundColor="YellowGreen"
                             BorderRadius="23"
                             HeightRequest="46"                
                             Text="Registrarse"
                             TextColor="White"
-                            HorizontalOptions="FillAndExpand">  
-                        </Button>                  
+                            HorizontalOptions="FillAndExpand"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}">
+                    </Button>                  
                 </StackLayout>
                 
                 <StackLayout
