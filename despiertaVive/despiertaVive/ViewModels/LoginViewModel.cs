@@ -1,20 +1,21 @@
 ﻿namespace despiertaVive.ViewModels
 {
+    using despiertaVive.Services;
     using GalaSoft.MvvmLight.Command;
-    using System;
-    using System.ComponentModel;
     using System.Windows.Input;
+    using Views;
     using Xamarin.Forms;
 
-    public class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel : BaseViewModel
     {
 
-        #region Events
-        public event PropertyChangedEventHandler PropertyChanged;
+        #region Services
+        private ApiService apiService;
         #endregion
 
         #region Attributes
         private string password;
+        private string email;
         private bool isRunning;
         private bool isEnabled;
         #endregion
@@ -22,8 +23,14 @@
         #region Properties
         public string Email
         {
-            get;
-            set;
+            get
+            {
+                return this.email;
+            }
+            set
+            {
+                SetValue(ref this.email, value);
+            }
         }
 
         public string Password
@@ -34,11 +41,7 @@
             }
             set
             {
-                if (this.password != value)
-                {
-                    this.password = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Password)));
-                }
+                SetValue(ref this.password, value);
             }
         }
 
@@ -50,11 +53,7 @@
             }
             set
             {
-                if (this.isRunning != value)
-                {
-                    this.isRunning = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.IsRunning)));
-                }
+                SetValue(ref this.isRunning, value);
             }
         }
 
@@ -72,11 +71,7 @@
             }
             set
             {
-                if (this.isEnabled != value)
-                {
-                    this.isEnabled = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.IsEnabled)));
-                }
+                SetValue(ref this.isEnabled, value);
             }
         }
         #endregion
@@ -84,17 +79,23 @@
         #region Constructors
         public LoginViewModel()
         {
+            this.apiService = new ApiService();
+
             this.IsRemembered = true;
             this.IsEnabled = true;
+
+            this.Email = "temochas_lost@hotmail.com";
+            this.Password = "wwssdadabass1";
         }
         #endregion
 
+        
         #region Commands
         public ICommand LoginCommand
         {
             get
             {
-                return new RelayCommand(Login);
+                return new RelayCommand(Login);                
             }
         }
 
@@ -121,6 +122,8 @@
             this.IsRunning = true;
             this.IsEnabled = false;
 
+            var connection = await this.apiService.CheckConnection();
+
             if (this.Email != "temochas_lost@hotmail.com" || this.Password != "wwssdadabass1")
             {
                 this.IsRunning = false;
@@ -136,11 +139,22 @@
             this.IsRunning = false;
             this.IsEnabled = true;
 
-            await Application.Current.MainPage.DisplayAlert(
-                "Eso Mijo",
-                "el pequeño delfin que hacia aaaaah aaah aah ",
-                "Acepto");
-            return;
+            this.Email = string.Empty;
+            this.Password = string.Empty;
+
+            MainViewModel.GetInstance().MenuTabbed = new MenuTabbedViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new MenuTabbedPage());
+
+            if (!connection.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    connection.Message,
+                    "Aceptar");
+                return;
+            }
 
         }
         #endregion
